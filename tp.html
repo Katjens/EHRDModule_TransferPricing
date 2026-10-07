@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to Transfer Pricing</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #F5EFE0;   /* cream */
+      color: #6B8F5E;              /* sage green */
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .page { display: none; flex: 1; flex-direction: column; }
+    .page.active { display: flex; }
+
+    /* Intro page */
+    .intro {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .intro h1 { font-size: 3rem; margin: 0; }
+    .intro h2 { font-size: 1.5rem; font-weight: normal; margin: 0.5rem 0 2rem; }
+
+    /* Lesson pages */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 2rem;
+      box-sizing: border-box;
+    }
+    main h1 { font-size: 2.5rem; margin-top: 0; }
+    main h2 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    p { font-size: 1.25rem; line-height: 1.7; }
+
+    li { font-size: 1.2rem; line-height: 1.7; margin-bottom: 0.5rem; }
+
+    .table-wrap { overflow-x: auto; margin: 1rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 1.05rem; }
+    th, td { padding: 0.6rem 0.8rem; text-align: right; border-bottom: 1px solid #C9D3B8; }
+    th:first-child, td:first-child { text-align: left; }
+    th { background-color: #EDE6D1; }
+    tr.total td { font-weight: bold; border-top: 2px solid #6B8F5E; }
+
+    .question { margin: 1.75rem 0; }
+    .question p { margin-bottom: 0.5rem; font-weight: bold; }
+    .opt {
+      display: block;
+      margin-top: 0.5rem;
+      padding: 0.65rem 1rem;
+      font-size: 1.05rem;
+      border: 2px solid #6B8F5E;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .opt:hover { background-color: #EDE6D1; }
+    .opt input { margin-right: 0.6rem; accent-color: #6B8F5E; }
+    #survey-error { min-height: 1.5rem; font-size: 1.05rem; }
+    #result { display: none; margin-top: 1.5rem; padding: 1.25rem 1.5rem; border: 2px solid #6B8F5E; border-radius: 8px; background-color: #EDE6D1; }
+    #result h2 { margin-top: 0; }
+
+    .congrats { align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem; }
+    .congrats h1 { font-size: 3rem; margin: 0 0 0.5rem; }
+    .congrats ul { text-align: left; max-width: 520px; margin: 1.5rem auto 2rem; }
+
+    .note {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid #6B8F5E;
+      background-color: #EDE6D1;
+    }
+
+    .review {
+      margin-top: 2.5rem;
+      padding: 1.25rem 1.5rem;
+      border: 2px solid #6B8F5E;
+      border-radius: 8px;
+    }
+    .review p { margin-top: 0; }
+
+    .choice {
+      display: block;
+      width: 100%;
+      margin-top: 0.75rem;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-family: inherit;
+      font-size: 1.1rem;
+      color: #6B8F5E;
+      background-color: transparent;
+      border: 2px solid #6B8F5E;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .choice:hover { background-color: #EDE6D1; }
+    .choice.correct { background-color: #6B8F5E; color: #F5EFE0; }
+    .choice.wrong { opacity: 0.5; }
+    .feedback { font-size: 1.1rem; min-height: 1.5rem; margin-bottom: 0; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background-color: #6B8F5E;
+      color: #F5EFE0;
+      font-family: inherit;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .button:hover, .button:focus { background-color: #587A4C; }
+    .button:disabled { opacity: 0.4; cursor: not-allowed; background-color: #6B8F5E; }
+    .hidden { visibility: hidden; }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: Intro -->
+  <section class="page intro active">
+    <h1>Introduction to Transfer Pricing</h1>
+    <h2>EHRD 616</h2>
+    <button class="button" onclick="go(1)">Start Here</button>
+  </section>
+
+  <!-- PAGE 2: Definition -->
+  <section class="page">
+    <main>
+      <h1>What Is Transfer Pricing?</h1>
+      <p>
+        Transfer pricing is the price that one part of a company charges another
+        part of the same company for goods, services, or intangible assets such as
+        patents and trademarks. It most often applies to multinational groups, where
+        a parent company and its subsidiaries in different countries trade with each other.
+      </p>
+      <p>
+        Because these companies are related, tax authorities require that the prices
+        match what unrelated businesses would agree to in a similar deal. This is known
+        as the <strong>arm's length principle</strong>.
+      </p>
+      <aside class="note">
+        <strong>Arm's length principle:</strong> the standard that transactions between
+        related companies should be priced as if the two parties were independent and
+        negotiating in their own best interests. Tax authorities use it to check that
+        profits are not shifted to low-tax countries through artificial prices.
+      </aside>
+    </main>
+    <footer>
+      <button class="button" onclick="go(0)">Back</button>
+      <button class="button" onclick="go(2)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 3: Dividing vs. Comparing -->
+  <section class="page">
+    <main>
+      <h1>Dividing vs. Comparing</h1>
+      <p>
+        There are two broad ways to check whether a transfer price is fair:
+        <strong>comparing</strong> and <strong>dividing</strong>.
+      </p>
+
+      <h2>Comparing</h2>
+      <p>
+        Look at similar deals between unrelated companies and see whether the
+        related-party price matches. For example, if independent companies sell the
+        same product for $10, the related-party price should be close to $10.
+      </p>
+
+      <h2>Dividing</h2>
+      <p>
+        Take the total profit that the related companies earn together and split it
+        between them based on what each one contributes, such as work done, assets
+        used, and risks taken. This is used when the businesses are so closely linked
+        that no good comparison exists.
+      </p>
+
+      <aside class="note">
+        <strong>Quick tip:</strong> comparing asks, "What would strangers have paid?"
+        Dividing asks, "How should we share the profit we made together?"
+      </aside>
+
+      <section class="review" data-right="Correct! Dividing splits the shared profit based on each company's contribution." data-wrong="Not quite. Comparing looks at what unrelated companies charge. Try again!">
+        <h2>Review Question</h2>
+        <p>Two related companies earn a combined profit and split it based on each one's contribution. Which approach is this?</p>
+        <button class="choice" data-correct="false">A. Comparing</button>
+        <button class="choice" data-correct="true">B. Dividing</button>
+        <p class="feedback"></p>
+      </section>
+    </main>
+    <footer>
+      <button class="button" onclick="go(1)">Back</button>
+      <button class="button" onclick="go(3)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 4: Case Study -->
+  <section class="page">
+    <main>
+      <h1>Case Study: Coca-Cola</h1>
+      <p>
+        One of the largest transfer pricing disputes in history shows both approaches
+        in action. It is a real case: <em>The Coca-Cola Company v. Commissioner</em>.
+      </p>
+
+      <h2>The Setup</h2>
+      <p>
+        Coca-Cola makes concentrate, the secret ingredient base for its drinks, and
+        sells it through foreign affiliates called "supply points" in countries such as
+        Ireland, Brazil, and Egypt. Those affiliates make the concentrate, and the
+        U.S. parent owns the brand and formulas. The question: how much profit should
+        each supply point keep, and how much should go back to the U.S. parent as
+        royalties?
+      </p>
+
+      <h2>The Dividing Approach: "10-50-50"</h2>
+      <p>
+        Under a 1996 agreement with the IRS, Coca-Cola used a fixed formula known as
+        the 10-50-50 method. In simple terms, each supply point first earned a modest
+        set return on its sales, and the remaining profit was then split roughly
+        50/50 between the supply point and the U.S. parent. This divides the combined
+        profit by formula rather than looking at what outsiders pay.
+      </p>
+
+      <h2>The Comparing Approach: Comparable Profits</h2>
+      <p>
+        For tax years 2007 to 2009, the IRS dropped the formula. It instead used the
+        comparable profits method, which looks at the profits earned by independent
+        bottling companies doing similar work, and treated those as the fair return
+        for the supply points. Everything above that went to the U.S. parent.
+      </p>
+
+      <aside class="note">
+        <strong>Why it matters:</strong> the two approaches gave very different
+        answers. The IRS's approach shifted billions of dollars of profit back to the
+        U.S., where it was taxed.
+      </aside>
+
+      <h2>What Happened</h2>
+      <p>
+        The U.S. Tax Court sided with the IRS, and Coca-Cola appealed to the Eleventh
+        Circuit. The appeals court heard arguments in June 2026. Check for the latest
+        status, because a ruling could change what this case teaches about which
+        approach courts prefer.
+      </p>
+
+      <aside class="note">
+        <strong>Think about it:</strong> Coca-Cola argued it had relied on the formula
+        for years with the IRS's blessing. The IRS argued it was never bound to accept
+        one fixed formula forever. Which argument seems stronger to you, and why?
+      </aside>
+
+      <section class="review" data-right="Correct! The IRS compared the supply points to independent bottlers, which is a comparing approach." data-wrong="Not quite. Dividing splits a shared profit by formula. Here the IRS looked at outside companies. Try again!">
+        <h2>Review Question</h2>
+        <p>The IRS replaced Coca-Cola's formula with a method based on the profits of independent bottlers. Which approach is this?</p>
+        <button class="choice" data-correct="false">A. Dividing</button>
+        <button class="choice" data-correct="true">B. Comparing</button>
+        <p class="feedback"></p>
+      </section>
+    </main>
+    <footer>
+      <button class="button" onclick="go(2)">Back</button>
+      <button class="button" onclick="go(4)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 5: Case Study 2 (Dividing) -->
+  <section class="page">
+    <main>
+      <h1>Case Study: Orange Business Norway</h1>
+      <p>
+        This real case went the other way from Coca-Cola. Here, a dividing approach
+        was upheld over a comparing approach. It is
+        <em>Norway v. Orange Business Norway AS</em>, decided by the Borgarting Court
+        of Appeal in January 2020.
+      </p>
+
+      <h2>The Setup</h2>
+      <p>
+        Orange is a French telecommunications group. Its business division, Orange
+        Business Services, sells communication and IT services to large corporate
+        customers around the world. The group ran a centralized, highly integrated
+        business model, and its Norwegian subsidiary was one piece of that global
+        operation. The Norwegian tax authorities audited the subsidiary for the
+        years 2006 to 2008.
+      </p>
+
+      <h2>The Dividing Approach: Profit Split</h2>
+      <p>
+        Orange Business Norway set its pricing using a profit split method. The
+        group's combined profit from its global services was divided among the
+        companies involved, based on what each one contributed. The reasoning was that
+        the work was so intertwined across countries that no single entity could be
+        priced on its own.
+      </p>
+
+      <h2>The Comparing Approach: Transactional Net Margin Method</h2>
+      <p>
+        The Norwegian tax authorities rejected this. They argued the profit split
+        worked too much like a global formula for dividing profit, and they
+        recalculated the subsidiary's income using the transactional net margin
+        method, which compares its profit margin to those of nine supposedly similar
+        independent companies.
+      </p>
+
+      <aside class="note">
+        <strong>Why it matters:</strong> the question was not just which answer was
+        more favorable, but which method best fit the facts. When a business is
+        deeply integrated, finding true "strangers" to compare against can be nearly
+        impossible.
+      </aside>
+
+      <h2>What Happened</h2>
+      <p>
+        The court ruled in favor of Orange Business Norway. It found that the company
+        had not applied the profit split incorrectly, and that its internal pricing
+        was backed up by a detailed analysis of the functions each group company
+        performed. It gave little weight to the tax authorities' comparables, because
+        those companies differed too much in the nature of their business and in size.
+      </p>
+
+      <aside class="note">
+        <strong>Think about it:</strong> compare this case to Coca-Cola. In which
+        case was the dividing approach more convincing, and what facts made the
+        difference?
+      </aside>
+
+      <section class="review" data-right="Correct! Dividing works best when the businesses are tightly integrated and no reliable comparables exist." data-wrong="Not quite. Think about why the court rejected the comparables in this case. Try again!">
+        <h2>Review Question</h2>
+        <p>When is a dividing approach most useful?</p>
+        <button class="choice" data-correct="false">A. When many identical independent deals are available to compare</button>
+        <button class="choice" data-correct="true">B. When the businesses are closely integrated and good comparables are hard to find</button>
+        <p class="feedback"></p>
+      </section>
+    </main>
+    <footer>
+      <button class="button" onclick="go(3)">Back</button>
+      <button class="button" onclick="go(5)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 6: Arm's Length Principle -->
+  <section class="page">
+    <main>
+      <h1>The Arm's Length Principle</h1>
+      <p>
+        Every method you have learned so far, comparing and dividing, exists to
+        answer one question: <strong>did the related companies price their deal the
+        way independent companies would have?</strong> That standard is the arm's
+        length principle, and it is the foundation of transfer pricing law worldwide.
+      </p>
+
+      <h2>Where It Comes From</h2>
+      <p>
+        The principle is built into most countries' tax laws and into the OECD
+        guidelines that many countries follow. In the United States it is found in
+        Section 482 of the Internal Revenue Code. The core idea is simple: tax
+        authorities look at what each company actually did, then treat the related
+        companies as if they were separate, independent businesses.
+      </p>
+
+      <h2>A Simple Example</h2>
+      <p>
+        A U.S. parent sells a product to its subsidiary in a low-tax country for $6.
+        Independent buyers pay $10 for the same product. By charging the subsidiary
+        less, the parent shifts $4 of profit per unit into the low-tax country. A tax
+        authority would adjust the price back toward $10, which moves that profit back
+        to where it was earned.
+      </p>
+
+      <h2>A Range, Not a Single Number</h2>
+      <p>
+        There is often more than one defensible arm's length price. Tax authorities
+        usually accept a result that falls within a range of prices that independent
+        companies actually charged. A price outside the range can be adjusted.
+      </p>
+
+      <aside class="note">
+        <strong>Connecting it back:</strong> comparing methods test whether a price
+        matches what independent companies charge. Dividing methods test whether the
+        profit was shared the way independent partners would have shared it. Both are
+        ways of proving a price is at arm's length.
+      </aside>
+
+      <section class="review" data-right="Correct! The arm's length principle asks whether related companies priced their deal like independent companies would." data-wrong="Not quite. Think about what the principle compares related-party prices against. Try again!">
+        <h2>Review Question</h2>
+        <p>What does the arm's length principle require?</p>
+        <button class="choice" data-correct="false">A. That related companies always charge the lowest possible price</button>
+        <button class="choice" data-correct="true">B. That related companies price deals as if they were independent of each other</button>
+        <p class="feedback"></p>
+      </section>
+    </main>
+    <footer>
+      <button class="button" onclick="go(4)">Back</button>
+      <button class="button" onclick="go(6)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 7: Arm's Length Math Example -->
+  <section class="page">
+    <main>
+      <h1>Arm's Length: A Simple Example</h1>
+      <p>
+        Let's put numbers on it. A U.S. company, <strong>ParentCo</strong>, makes
+        widgets at a cost of <strong>$6</strong> each. It sells them to a
+        <strong>third party</strong> (an unrelated distributor) for
+        <strong>$10</strong> each. That $10 is the arm's length price, because it is
+        what an independent buyer actually pays.
+      </p>
+      <p>
+        ParentCo also sells 1,000 widgets to its own subsidiary, <strong>SubCo</strong>,
+        in a low-tax country. SubCo resells them to customers for $12 each. Assume
+        the U.S. tax rate is 25% and SubCo's country taxes at 10%.
+      </p>
+
+      <h2>Scenario 1: ParentCo charges SubCo only $7</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>ParentCo (U.S.)</th><th>SubCo</th></tr>
+          <tr><td>Profit per widget</td><td>$7 - $6 = $1</td><td>$12 - $7 = $5</td></tr>
+          <tr><td>Profit on 1,000 widgets</td><td>$1,000</td><td>$5,000</td></tr>
+          <tr><td>Tax</td><td>25% = $250</td><td>10% = $500</td></tr>
+          <tr class="total"><td>Total tax</td><td colspan="2">$750</td></tr>
+        </table>
+      </div>
+
+      <h2>Scenario 2: ParentCo charges the arm's length price of $10</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>ParentCo (U.S.)</th><th>SubCo</th></tr>
+          <tr><td>Profit per widget</td><td>$10 - $6 = $4</td><td>$12 - $10 = $2</td></tr>
+          <tr><td>Profit on 1,000 widgets</td><td>$4,000</td><td>$2,000</td></tr>
+          <tr><td>Tax</td><td>25% = $1,000</td><td>10% = $200</td></tr>
+          <tr class="total"><td>Total tax</td><td colspan="2">$1,200</td></tr>
+        </table>
+      </div>
+
+      <h2>What This Shows</h2>
+      <p>
+        The group earns $6,000 in total profit either way. But at $7, ParentCo
+        reports only $1,000 of it in the U.S., so $3,000 of profit shifts to the
+        low-tax country, and the group pays $450 less tax ($1,200 minus $750). A tax
+        authority would use the third-party price of $10 to adjust ParentCo's income
+        back to $4,000.
+      </p>
+
+      <aside class="note">
+        <strong>Method name:</strong> using the price an unrelated buyer pays for the
+        same product is called the comparable uncontrolled price (CUP) method. It is
+        the most direct comparing method when a good match exists.
+      </aside>
+
+      <section class="review" data-right="Correct! (10 - 8) x 500 = $1,000 of profit shifted out of the U.S." data-wrong="Not quite. Subtract the price charged from the arm's length price, then multiply by the number of units. Try again!">
+        <h2>Review Question</h2>
+        <p>The arm's length price is $10. ParentCo sells 500 widgets to SubCo at $8. How much profit was shifted away from ParentCo?</p>
+        <button class="choice" data-correct="false">A. $500</button>
+        <button class="choice" data-correct="true">B. $1,000</button>
+        <button class="choice" data-correct="false">C. $2,000</button>
+        <p class="feedback"></p>
+      </section>
+    </main>
+    <footer>
+      <button class="button" onclick="go(5)">Back</button>
+      <button class="button" onclick="go(7)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 8: Comparability, Reliability and IP -->
+  <section class="page">
+    <main>
+      <h1>Comparability and Reliability</h1>
+      <p>
+        A comparing method is only as good as its comparables. <strong>Reliability</strong>
+        describes how much you can trust the result, and it depends on how
+        <strong>comparable</strong> the independent deals really are to the related-party deal.
+      </p>
+
+      <h2>What Is Intellectual Property?</h2>
+      <p>
+        <strong>Intellectual property (IP)</strong> refers to valuable creations of the
+        mind that a company can own and legally protect. In transfer pricing, IP is
+        often the hardest thing to price because it has no physical form. The main types are:
+      </p>
+      <ul>
+        <li><strong>Patents:</strong> legal rights to an invention, such as a new drug or technology.</li>
+        <li><strong>Trademarks:</strong> names, logos, and brands that identify a company's products.</li>
+        <li><strong>Copyrights:</strong> rights to creative works, including software code, music, and writing.</li>
+        <li><strong>Trade secrets and know-how:</strong> confidential information, such as a secret formula or a special process.</li>
+      </ul>
+
+      <h2>Ranking IP: Easiest to Hardest to Compare</h2>
+      <p>
+        The more unique an asset is, the harder it is to find independent deals to
+        compare it with. As a rule of thumb, from easiest to hardest:
+      </p>
+      <ol>
+        <li><strong>Standard software and content (copyrights):</strong> licensed to many unrelated customers, so prices are easy to observe.</li>
+        <li><strong>Ordinary trademarks:</strong> everyday brands often have licensing deals and royalty rates to reference.</li>
+        <li><strong>Common patents:</strong> some similar licenses exist, but each invention differs.</li>
+        <li><strong>Trade secrets and know-how:</strong> rarely licensed in the open, so little data is available.</li>
+        <li><strong>Unique and valuable IP:</strong> breakthrough patents, world-famous brands, and secret formulas. True comparables rarely exist, so dividing methods are often used.</li>
+      </ol>
+
+      <aside class="note">
+        <strong>Link to the case studies:</strong> Coca-Cola's secret concentrate and
+        brand are close to the top of this list, which helps explain why the dispute
+        was so hard to settle. Orange's deeply integrated services business had a
+        similar problem finding reliable comparables.
+      </aside>
+
+      <h2>Ranking Circumstances: Most to Least Reliable</h2>
+      <p>
+        Comparability also depends on the circumstances around the deal, such as the
+        market, the timing, and the economic conditions. The closer the circumstances
+        are, the more reliable the comparison. From most to least reliable:
+      </p>
+      <ol>
+        <li><strong>Same product, same market, same time:</strong> the strongest comparison.</li>
+        <li><strong>Similar market, same time:</strong> small differences, easy to adjust for.</li>
+        <li><strong>Same market, different time:</strong> prices may have moved with the economy.</li>
+        <li><strong>Different market:</strong> different country, customers, competition, or market size.</li>
+        <li><strong>Very different conditions:</strong> a boom versus a recession, or very different regulation. This needs the largest adjustments and gives the least reliable result.</li>
+      </ol>
+
+      <aside class="note">
+        <strong>Note:</strong> these rankings are a teaching rule of thumb, not a legal
+        standard. In practice, each case is judged on its own facts, and differences
+        can often be adjusted for.
+      </aside>
+
+      <section class="review" data-right="Correct! A secret formula is unique, so independent comparables are very hard to find." data-wrong="Not quite. Think about which asset is the most unique. Try again!">
+        <h2>Review Question</h2>
+        <p>Which asset would be hardest to find reliable comparables for?</p>
+        <button class="choice" data-correct="false">A. A standard software program licensed to thousands of customers</button>
+        <button class="choice" data-correct="true">B. A famous company's secret formula</button>
+        <button class="choice" data-correct="false">C. An ordinary brand name with many similar licensing deals</button>
+        <p class="feedback"></p>
+      </section>
+    </main>
+    <footer>
+      <button class="button" onclick="go(6)">Back</button>
+      <button class="button" onclick="go(8)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 8: Penalties -->
+  <section class="page">
+    <main>
+      <h1>Transfer Pricing Penalties</h1>
+      <p>
+        If a tax authority decides a price was not at arm's length, it adjusts the
+        income and the company owes more tax. On top of that, penalties can apply.
+        The example below uses the United States, but most countries have their own
+        penalty rules.
+      </p>
+
+      <h2>Two Types of Penalties</h2>
+      <p>
+        <strong>Net adjustment penalty:</strong> applies when the total transfer
+        pricing adjustment for the year is large. A 20% penalty applies if the
+        adjustment exceeds the lesser of $5 million or 10% of the company's gross
+        receipts. A 40% penalty applies if it exceeds the lesser of $20 million or 20%
+        of gross receipts.
+      </p>
+      <p>
+        <strong>Transactional penalty:</strong> applies when the price charged was far
+        from the correct price. Roughly, a 20% penalty applies when the price was 200%
+        or more (or 50% or less) of the correct arm's length price, and a 40% penalty
+        applies at 400% or more (or 25% or less).
+      </p>
+
+      <aside class="note">
+        <strong>Important:</strong> the penalty is a percentage of the extra tax owed,
+        not of the adjustment itself. Because the $20 million threshold is low for
+        large multinationals, the 40% penalty can be a real risk.
+      </aside>
+
+      <h2>How Companies Protect Themselves</h2>
+      <p>
+        The best defense is <strong>contemporaneous documentation</strong>. This is a
+        written report, prepared by the time the tax return is filed, that explains
+        the method the company used and why it was reasonable. If the tax authority
+        asks for it, the company must provide it within 30 days. Good documentation
+        can remove the penalty even if the price is later adjusted.
+      </p>
+
+      <aside class="note">
+        <strong>Tip:</strong> documentation written after an audit begins does not
+        count as contemporaneous. The timing matters as much as the content.
+      </aside>
+
+      <section class="review" data-right="Correct! Documentation prepared by the filing date, explaining a reasonable method, is the main defense against penalties." data-wrong="Not quite. Think about what must exist by the time the tax return is filed. Try again!">
+        <h2>Review Question</h2>
+        <p>What is a company's best protection against transfer pricing penalties?</p>
+        <button class="choice" data-correct="false">A. Writing a report after the audit starts</button>
+        <button class="choice" data-correct="true">B. Preparing documentation by the time the return is filed that supports its method</button>
+        <p class="feedback"></p>
+      </section>
+    </main>
+    <footer>
+      <button class="button" onclick="go(7)">Back</button>
+      <button class="button" onclick="go(9)">Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 10: Career Survey -->
+  <section class="page">
+    <main>
+      <h1>Course Survey: Find Your Fit</h1>
+      <p>
+        Congratulations on finishing the course! Answer these five quick questions to
+        see which kind of transfer pricing job might suit you best.
+      </p>
+
+      <div class="question">
+        <p>1. How much do you enjoy researching data, like finding comparable companies and prices?</p>
+        <label class="opt"><input type="radio" name="q1" data-irs="1" data-big4="2" data-corp="1"> I love it</label>
+        <label class="opt"><input type="radio" name="q1" data-irs="1" data-big4="1" data-corp="1"> It's okay</label>
+        <label class="opt"><input type="radio" name="q1" data-irs="2" data-big4="0" data-corp="1"> Not really</label>
+      </div>
+
+      <div class="question">
+        <p>2. How do you feel about writing reports that explain your reasoning?</p>
+        <label class="opt"><input type="radio" name="q2" data-irs="1" data-big4="2" data-corp="1"> I enjoy it</label>
+        <label class="opt"><input type="radio" name="q2" data-irs="1" data-big4="1" data-corp="2"> It's fine in small doses</label>
+        <label class="opt"><input type="radio" name="q2" data-irs="1" data-big4="0" data-corp="1"> I'd rather avoid it</label>
+      </div>
+
+      <div class="question">
+        <p>3. How do you feel about working with spreadsheets and calculations?</p>
+        <label class="opt"><input type="radio" name="q3" data-irs="1" data-big4="2" data-corp="2"> I enjoy it</label>
+        <label class="opt"><input type="radio" name="q3" data-irs="2" data-big4="1" data-corp="1"> I can do it, but it's not my favorite</label>
+        <label class="opt"><input type="radio" name="q3" data-irs="1" data-big4="0" data-corp="1"> I'd rather do something else</label>
+      </div>
+
+      <div class="question">
+        <p>4. Which task sounds more interesting to you?</p>
+        <label class="opt"><input type="radio" name="q4" data-irs="1" data-big4="2" data-corp="2"> Penalty calculations: working out what a company could owe if its prices were wrong</label>
+        <label class="opt"><input type="radio" name="q4" data-irs="3" data-big4="1" data-corp="0"> Auditing: reviewing a company's records and pricing to check that it follows the rules</label>
+      </div>
+
+      <div class="question">
+        <p>5. What kind of work setting appeals to you most?</p>
+        <label class="opt"><input type="radio" name="q5" data-irs="0" data-big4="3" data-corp="0"> Variety: working with many different companies and industries</label>
+        <label class="opt"><input type="radio" name="q5" data-irs="3" data-big4="0" data-corp="0"> Public service: making sure everyone follows the same rules</label>
+        <label class="opt"><input type="radio" name="q5" data-irs="0" data-big4="0" data-corp="3"> Depth: getting to know one company really well</label>
+      </div>
+
+      <button class="button" id="see-result">See My Result</button>
+      <p id="survey-error"></p>
+
+      <div id="result">
+        <h2 id="result-title"></h2>
+        <p id="result-text"></p>
+        <button class="button" id="retake">Retake Survey</button>
+      </div>
+
+      <aside class="note">
+        <strong>Note:</strong> this survey is just for fun and reflection, not
+        professional career advice. Many transfer pricing professionals move between
+        these paths over their careers.
+      </aside>
+    </main>
+    <footer>
+      <button class="button" onclick="go(8)">Back</button>
+      <button class="button" id="survey-next" onclick="go(10)" disabled>Continue</button>
+    </footer>
+  </section>
+
+  <!-- PAGE 11: Congratulations -->
+  <section class="page congrats">
+    <h1>Congratulations!</h1>
+    <p>You have completed <strong>Introduction to Transfer Pricing</strong> (EHRD 616).</p>
+    <p>Here is what you covered:</p>
+    <ul>
+      <li>What transfer pricing is and the arm's length principle</li>
+      <li>Comparing vs. dividing methods</li>
+      <li>Real cases: Coca-Cola and Orange Business Norway</li>
+      <li>A math example of arm's length pricing</li>
+      <li>Comparability, reliability, and intellectual property</li>
+      <li>Penalties and how documentation protects companies</li>
+    </ul>
+    <p>Great work, and best of luck with whatever comes next!</p>
+    <div>
+      <button class="button" onclick="go(9)">Back</button>
+      <button class="button" onclick="go(0)">Restart Course</button>
+    </div>
+  </section>
+
+  <script>
+    var pages = document.querySelectorAll(".page");
+
+    function go(n) {
+      pages.forEach(function (p, i) {
+        p.classList.toggle("active", i === n);
+      });
+      window.scrollTo(0, 0);
+    }
+
+        // Lock each page's Continue button until its review question is answered correctly
+    document.querySelectorAll(".review").forEach(function (review) {
+      var next = review.closest(".page").querySelector("footer .button:last-child");
+      if (next && !next.classList.contains("hidden")) {
+        next.disabled = true;
+        review.querySelector(".feedback").textContent = "Answer correctly to unlock Continue.";
+      }
+    });
+
+    document.querySelectorAll(".choice").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (btn.dataset.correct === "true") {
+          btn.classList.add("correct");
+          btn.closest(".review").querySelector(".feedback").textContent = btn.closest(".review").dataset.right;
+          var nextBtn = btn.closest(".page").querySelector("footer .button:last-child");
+          if (nextBtn) { nextBtn.disabled = false; }
+        } else {
+          btn.classList.add("wrong");
+          btn.closest(".review").querySelector(".feedback").textContent = btn.closest(".review").dataset.wrong;
+        }
+      });
+    });
+    // Career survey scoring
+    var careers = {
+      irs: {
+        title: "Your match: IRS or another tax authority",
+        text: "You seem to enjoy reviewing and checking work, and you like the idea of fairness and public service. Tax authorities hire specialists to examine whether multinational companies priced their deals at arm's length, which is the same question you studied in this course. Roles to look into include international examiner, transfer pricing specialist, and economist."
+      },
+      big4: {
+        title: "Your match: Big 4 accounting firm (Deloitte, EY, KPMG, PwC)",
+        text: "You seem to like research, spreadsheets, and variety. Big 4 transfer pricing teams help many different companies document their prices, find comparables, and prepare for audits and penalty risk. Roles to look into include transfer pricing analyst, associate, and consultant."
+      },
+      corp: {
+        title: "Your match: In-house corporate tax team",
+        text: "You seem to prefer going deep with one organization. Large companies employ their own transfer pricing and tax professionals to set pricing policy and keep their documentation up to date so they are protected from penalties. Roles to look into include transfer pricing analyst and corporate tax analyst."
+      }
+    };
+
+    document.getElementById("see-result").addEventListener("click", function () {
+      var score = { irs: 0, big4: 0, corp: 0 };
+      var error = document.getElementById("survey-error");
+      for (var q = 1; q <= 5; q++) {
+        var chosen = document.querySelector('input[name="q' + q + '"]:checked');
+        if (!chosen) {
+          error.textContent = "Please answer all five questions to see your result.";
+          return;
+        }
+        score.irs += Number(chosen.dataset.irs);
+        score.big4 += Number(chosen.dataset.big4);
+        score.corp += Number(chosen.dataset.corp);
+      }
+      error.textContent = "";
+
+      var best = Math.max(score.irs, score.big4, score.corp);
+      var winners = Object.keys(score).filter(function (k) { return score[k] === best; });
+      var title = careers[winners[0]].title;
+      var text = careers[winners[0]].text;
+      if (winners.length > 1) {
+        title = "You are a close match for more than one path";
+        text = winners.map(function (k) { return careers[k].title.replace("Your match: ", "") + ": " + careers[k].text; }).join(" ");
+      }
+      document.getElementById("result-title").textContent = title;
+      document.getElementById("result-text").textContent = text;
+      var box = document.getElementById("result");
+      box.style.display = "block";
+      document.getElementById("survey-next").disabled = false;
+      box.scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("retake").addEventListener("click", function () {
+      document.querySelectorAll('.question input').forEach(function (i) { i.checked = false; });
+      document.getElementById("result").style.display = "none";
+      window.scrollTo(0, 0);
+    });
+  </script>
+</body>
+</html>
